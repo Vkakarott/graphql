@@ -1,4 +1,5 @@
 import { Field, InputType } from "type-graphql";
+import { Discipline } from "../models/discipline-model";
 
 @InputType()
 export class CreateDisciplineInput {
@@ -9,7 +10,7 @@ export class CreateDisciplineInput {
     name: string;
 
     @Field()
-    prerequisites: string[];
+    prerequisites: Discipline[];
 
     @Field()
     workload: number;
