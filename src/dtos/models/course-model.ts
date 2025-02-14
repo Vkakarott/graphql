@@ -12,6 +12,6 @@ export class Course {
     @Field()
     duration: number;
 
-    @Field(() => [Discipline])
-    disciplines: Discipline[];
+    @Field(() => [Discipline], { nullable: true })
+    disciplines?: Discipline[]; 
 }

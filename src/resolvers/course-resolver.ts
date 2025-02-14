@@ -2,26 +2,27 @@ import { Query, Resolver, Arg, Mutation } from "type-graphql";
 import { randomUUID } from "node:crypto";
 import { Course } from "../dtos/models/course-model";
 import { CreateCourseInput } from "../dtos/inputs/create-course-input";
+import { prisma } from "../lib/prisma";
 
 @Resolver(Course)
 export class CourseResolver {
-    private courseList: Course[] = [];
-
     @Query(() => [Course])
-    async courses(): Promise<Course[]> {
-        return this.courseList;
+    async courses() {
+        return await prisma.course.findMany();
     }
 
     @Mutation(() => Course)
     async createCourse(@Arg('data') data: CreateCourseInput): Promise<Course> {
-        const course = {
-            id: randomUUID(),
-            name: data.name,
-            duration: data.duration,
-            disciplines: []
-        };
-
-        this.courseList.push(course);
+        const course = await prisma.course.create({
+            data: {
+                id: randomUUID(),
+                name: data.name,
+                duration: data.duration,
+                disciplines: {
+                    connect: data.disciplines?.map(disciplineId => ({ id: disciplineId })),
+                }
+            }
+        });
 
         return course;
     }

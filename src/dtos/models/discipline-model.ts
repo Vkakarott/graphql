@@ -15,7 +15,7 @@ export class Discipline {
     nature: string;
 
     @Field()
-    period: string;
+    period: number;
 
     @Field(() => [Discipline], { nullable: true })
     prerequisites: Discipline[];

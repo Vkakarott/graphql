@@ -1,35 +1,39 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+datasource db {
+  provider = "postgresql" 
+  url      = env("DATABASE_URL")  
+}
 
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 model Course {
-  id          String      @id @default(cuid())
+  id          String       @id @default(cuid())
   name        String
   duration    Int
-  disciplines Discipline[] @relation("CourseDisciplines") // Conexão com Discipline
+  disciplines Discipline[] @relation("CourseDisciplines")
 }
 
 model Discipline {
-  id            String       @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String
   workload      Int
   nature        String
-  period        String
-  courseId      String?
+  period        Int
+  prerequisites Discipline[] @relation("Prerequisites") 
+  prerequisiteOf Discipline[] @relation("Prerequisites") 
+  
+  courses       Course[]   @relation("CourseDisciplines") 
 
-  course        Course?      @relation("CourseDisciplines", fields: [courseId], references: [id]) // Inverso do relacionamento com Course
+  disciplineRelations    DisciplineRelation[] @relation("DisciplinePrerequisites")
+  prerequisiteRelations  DisciplineRelation[] @relation("DisciplinePrerequisitesReverse")
+}
 
-  prerequisites Discipline[] @relation("DisciplinePrerequisites", references: [id]) // Relacionamento de pré-requisitos
-  requiredBy    Discipline[] @relation("DisciplinePrerequisites", references: [id]) // Campo inverso obrigatório para auto-relacionamento
+model DisciplineRelation {
+  id             String     @id @default(cuid())
+  disciplineId   String
+  prerequisiteId String
+
+  discipline    Discipline @relation("DisciplinePrerequisites", fields: [disciplineId], references: [id])
+  prerequisite  Discipline @relation("DisciplinePrerequisitesReverse", fields: [prerequisiteId], references: [id])
 }
