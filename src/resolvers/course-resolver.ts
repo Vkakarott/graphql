@@ -18,9 +18,7 @@ export class CourseResolver {
                 id: randomUUID(),
                 name: data.name,
                 duration: data.duration,
-                disciplines: {
-                    connect: data.disciplines?.map(disciplineId => ({ id: disciplineId })),
-                }
+                disciplines: data.disciplines
             }
         });
 

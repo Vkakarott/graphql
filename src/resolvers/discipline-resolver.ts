@@ -1,4 +1,4 @@
-import { Mutation, Query, Resolver, Arg, FieldResolver, Root } from "type-graphql";
+import { Mutation, Query, Resolver, Arg } from "type-graphql";
 import { CreateDisciplineInput } from "../dtos/inputs/create-discipline-input";
 import { Discipline } from "../dtos/models/discipline-model";
 import { randomUUID } from "node:crypto";
@@ -20,7 +20,7 @@ export class DisciplineResolver {
                 workload: data.workload,
                 nature: data.nature,
                 period: data.period,
-                prerequisites: data.prerequisites,
+                prerequisites: data.prerequisites
             }
         })
 
