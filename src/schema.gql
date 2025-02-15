@@ -4,7 +4,7 @@
 # -----------------------------------------------
 
 type Course {
-  disciplines: [Discipline!]
+  disciplines: [String!]
   duration: Float!
   id: String!
   name: String!
@@ -17,7 +17,6 @@ input CreateCourseInput {
 }
 
 input CreateDisciplineInput {
-  id: String!
   name: String!
   nature: String!
   period: Float!
@@ -30,7 +29,7 @@ type Discipline {
   name: String!
   nature: String!
   period: Float!
-  prerequisites: [Discipline!]
+  prerequisites: [String!]
   workload: Float!
 }
 
