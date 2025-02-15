@@ -11,7 +11,7 @@ model Course {
   id          String       @id @default(cuid())
   name        String
   duration    Int
-  disciplines Discipline[] @relation("CourseDisciplines")
+  disciplines String[]
 }
 
 model Discipline {
@@ -20,20 +20,5 @@ model Discipline {
   workload      Int
   nature        String
   period        Int
-  prerequisites Discipline[] @relation("Prerequisites") 
-  prerequisiteOf Discipline[] @relation("Prerequisites") 
-  
-  courses       Course[]   @relation("CourseDisciplines") 
-
-  disciplineRelations    DisciplineRelation[] @relation("DisciplinePrerequisites")
-  prerequisiteRelations  DisciplineRelation[] @relation("DisciplinePrerequisitesReverse")
-}
-
-model DisciplineRelation {
-  id             String     @id @default(cuid())
-  disciplineId   String
-  prerequisiteId String
-
-  discipline    Discipline @relation("DisciplinePrerequisites", fields: [disciplineId], references: [id])
-  prerequisite  Discipline @relation("DisciplinePrerequisitesReverse", fields: [prerequisiteId], references: [id])
+  prerequisites String[]  
 }
