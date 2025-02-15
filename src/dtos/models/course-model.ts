@@ -1,5 +1,4 @@
 import { ObjectType, Field } from "type-graphql";
-import { Discipline } from "./discipline-model";
 
 @ObjectType()
 export class Course {
@@ -12,6 +11,6 @@ export class Course {
     @Field()
     duration: number;
 
-    @Field(() => [Discipline], { nullable: true })
-    disciplines?: Discipline[]; 
+    @Field(() => [String], { nullable: true })
+    disciplines?: string[]; 
 }
